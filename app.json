@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "react-native-dva-starter-with-builtin-router",
-    "description": "This is example to integrate dva into react-native using builtin router of dva.  See the source: https://github.com/horiuchie/react-native-dva-starter-with-builtin-router.",
+    "description": "This is example to integrate dva into react-native using builtin router of dva.  See the source: https://github.com/horiuchie/react-native-dva-starter-with-builtin-router",
     "slug": "react-native-dva-starter-with-builtin-router",
     "privacy": "public",
     "sdkVersion": "25.0.0",

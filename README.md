@@ -1,6 +1,6 @@
 ## react-native-dva-starter-with-builtin-router
 
-This example shows way to integrate [dva](https://github.com/dvajs/dva) into react-native app with builtin router of dva.  
+This example shows a way to integrate [dva](https://github.com/dvajs/dva) into react-native app with builtin router of dva.  
 Since you don't need a router designed for react-native, this approach allows you to code any native app with dva just like web app.  
 
 Try it at https://expo.io/@horiuchie/react-native-dva-starter-with-builtin-router.

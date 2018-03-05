@@ -6,7 +6,7 @@ Since you don't need a router designed for react-native, this approach allows yo
 Try it at https://expo.io/@horiuchie/react-native-dva-starter-with-builtin-router.
 
 <p align="center">
-  <img src="https://github.com/horiuchie/react-native-dva-starter-with-builtin-router/blob/master/example.gif">
+  <img width="254" height="450" src="https://github.com/horiuchie/react-native-dva-starter-with-builtin-router/blob/master/example.gif">
 </p>
 
 ## How to integrate

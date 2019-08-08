@@ -11,22 +11,25 @@ Try it at https://expo.io/@horiuchie/react-native-dva-starter-with-builtin-route
 
 ## How to integrate
 
-1. `yarn global add exp` if you have not installed yet.
-2. `exp init project-name` then choose blank.
-3. cd `project-name`.
-4. `yarn add dva react-dom`.
+1. `yarn global add expo-cli` if you have not installed yet.
+2. `expo init {project-name}` then choose blank.
+3. cd `{project-name}`.
+4. `yarn add dva dva-loading react-dom`.
 5. replace `App.js` with the following:
 
 ``` js
 import React from 'react';
 import dva, { connect } from 'dva';
-import { routerRedux } from 'dva/router';
-import { createMemoryHistory as createHistory } from 'history';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Router, Route, Switch } from 'dva/router';
+import createLoading from 'dva-loading';
+import { Router, Route, Switch, routerRedux } from 'dva/router';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { createMemoryHistory } from 'history';
+
+const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 const app = dva({
-  history: createHistory(),  // Trick !!
+  ...createLoading(),
+  history: createMemoryHistory(),  // Trick !!
   initialState: {}
 });
 
@@ -35,7 +38,8 @@ app.model({
   state: {},
   reducers: {},
   effects: {
-    *login ( action, { put } ) {
+    *login ( action, { put, call } ) {
+      yield call(delay, 1000);
       yield put(routerRedux.push({ pathname: '/home' }));
     }
   },
@@ -49,13 +53,16 @@ app.model({
   }
 });
 
-const LoginPage = connect()(({ dispatch }) => {
-  const onPress = () => { dispatch({ type: 'user/login'}) };
+const LoginPage = connect(({ loading }) => ({ loading }))(({ dispatch, loading: { effects } }) => {
   return (
     <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableOpacity onPress={onPress}>
-        <Text style={{ fontSize: 24 }}>Login</Text>
-      </TouchableOpacity>
+      {
+        effects['user/login']
+        ? <ActivityIndicator />
+        : <TouchableOpacity onPress={() => dispatch({ type: 'user/login' })}>
+            <Text style={{ fontSize: 24 }}>Login</Text>
+          </TouchableOpacity>
+      }
     </View>
   );
 });
@@ -82,31 +89,4 @@ const App = app.start();
 export default App;
 ```
 
-6. `exp start`. If your project on other networks, run `exp start --host tunnnel`.
-
-
-## Add a stack component
-
-[react-router-native-stack](https://github.com/Traviskn/react-router-native-stack) is available if you want swiping back and animation.  
-
-1. `yarn add react-router-native react-router-native-stack`.
-2. In `App.js`, replace `Switch` with `Stack`:
-
-``` diff
--import { Router, Route, Switch } from 'dva/router';
-+import { Router, Route } from 'dva/router';
-+import Stack from 'react-router-native-stack';
-
-...
-
-app.router(({ history }) => (
-  <Router history={history}>
--   <Switch>
-+   <Stack>
-      <Route path="/" exact component={LoginPage} />
-      <Route path="/home" exact component={HomePage} />
--    </Switch>
-+    </Stack>
-  </Router>
-));
-```
+6. `expo start`. If your project on other networks, run `expo start --tunnnel`.
